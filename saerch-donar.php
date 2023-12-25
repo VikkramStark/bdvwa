@@ -118,16 +118,20 @@ foreach($results as $result)
 				<?php
 				if(isset($_POST['sub']))
 {
+
+$mysql = new mysqli("localhost", "root","", "bbdms") ;  
 $status=1;
 $bloodgroup=$_POST['bloodgroup'];
 $location=$_POST['location']; 
 
-$sql = "SELECT * from tblblooddonars where (status=:status and BloodGroup=:bloodgroup) ||  (Address=:location)";
-$query = $dbh -> prepare($sql);
-$query->bindParam(':status',$status,PDO::PARAM_STR);
-$query->bindParam(':bloodgroup',$bloodgroup,PDO::PARAM_STR);
-$query->bindParam(':location',$location,PDO::PARAM_STR);
-$query->execute();
+$sql = "SELECT * from tblblooddonars where (status=$status and BloodGroup='$bloodgroup') ||  (Address='$location')"; 
+// $query = $dbh -> prepare($sql);
+$query = $sql; 
+// $query->bindParam(':status',$status,PDO::PARAM_STR);
+// $query->bindParam(':bloodgroup',$bloodgroup,PDO::PARAM_STR);
+// $query->bindParam(':location',$location,PDO::PARAM_STR);
+// $query->execute();
+$result = mysqli_query($mysql, $query); 
 $results=$query->fetchAll(PDO::FETCH_OBJ);
 $cnt=1;
 if($query->rowCount() > 0)

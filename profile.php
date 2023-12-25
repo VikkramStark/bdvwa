@@ -9,6 +9,7 @@ if (strlen($_SESSION['bbdmsdid']==0)) {
 
  if(isset($_POST['update']))
   {
+	$mysql = new mysqli("localhost","root","","bbdms"); 
     $uid=$_SESSION['bbdmsdid'];
     $name=$_POST['fullname'];
     $mno=$_POST['mobileno']; 
@@ -18,17 +19,19 @@ if (strlen($_SESSION['bbdmsdid']==0)) {
     $bloodgroup=$_POST['bloodgroup']; 
     $address=$_POST['address'];
     $message=$_POST['message']; 
-  $sql="update tblblooddonars set FullName=:name,MobileNumber=:mno, Age=:age,Gender=:gender,BloodGroup=:bloodgroup,Address=:address,Message=:message  where id=:uid";
+  $sql="update tblblooddonars set FullName='$name',MobileNumber=$mno, Age=$age,Gender='$gender',BloodGroup='$bloodgroup',Address='$address',Message='$message'  where id=$uid";
      $query = $dbh->prepare($sql);
-     $query->bindParam(':name',$name,PDO::PARAM_STR);
-     $query->bindParam(':mno',$mno,PDO::PARAM_STR);
-     $query->bindParam(':age',$age,PDO::PARAM_STR);
-     $query->bindParam(':gender',$gender,PDO::PARAM_STR);
-     $query->bindParam(':bloodgroup',$bloodgroup,PDO::PARAM_STR);
-     $query->bindParam(':address',$address,PDO::PARAM_STR);
-     $query->bindParam(':message',$message,PDO::PARAM_STR);
-     $query->bindParam(':uid',$uid,PDO::PARAM_STR);
-     $query->execute();
+	 $query = $sql; 
+    //  $query->bindParam(':name',$name,PDO::PARAM_STR);
+    //  $query->bindParam(':mno',$mno,PDO::PARAM_STR);
+    //  $query->bindParam(':age',$age,PDO::PARAM_STR);
+    //  $query->bindParam(':gender',$gender,PDO::PARAM_STR);
+    //  $query->bindParam(':bloodgroup',$bloodgroup,PDO::PARAM_STR);
+    //  $query->bindParam(':address',$address,PDO::PARAM_STR);
+    //  $query->bindParam(':message',$message,PDO::PARAM_STR);
+    //  $query->bindParam(':uid',$uid,PDO::PARAM_STR);
+    //  $query->execute();
+	mysqli_query($mysql, $query); 
         echo '<script>alert("Profile has been updated")</script>';
   }
 

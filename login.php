@@ -8,7 +8,7 @@ if(isset($_POST['login']))
     // $password=md5($_POST['password']);
 	$password=$_POST['password']; 
     // $sql ="SELECT id FROM tblblooddonars WHERE EmailId=:email and Password=:password";
-	$sql ="SELECT UserName,Password FROM tbladmin WHERE UserName= '".$username."' and Password='".$password."';"; 
+	$sql ="SELECT id FROM tblblooddonars WHERE EmailId= '$email' and Password='$password';";  
 	$query = $sql; 
     // $query=$dbh->prepare($sql);
     // $query->bindParam(':email',$email,PDO::PARAM_STR);
@@ -16,17 +16,18 @@ if(isset($_POST['login']))
     // $query-> execute();
     // $results=$query->fetchAll(PDO::FETCH_OBJ);
 	
-	$results = mysqli_query($mysql, $query);  
+	$results = mysqli_query($mysql, $query); 
+	print_r($result);  
 
 	// $query->rowCount() > 0 V 
     if(mysqli_num_rows($results) > 0) 
 {
 foreach ($results as $result) {
-$_SESSION['bbdmsdid']=$result->id;
+$_SESSION['bbdmsdid']=$result['id']; 
 }
 $_SESSION['login']=$_POST['email'];
-// echo "<script type='text/javascript'>document.location ='index.php'; alert('Successfully Logged in!') </script>"; // document.location ='index.php'; 
-echo "SUccessfully Logged in!" ; 
+echo "<script type='text/javascript'>document.location ='index.php'; alert('Successfully Logged in!'); document.location ='index.php';</script>"; //  
+// echo "SUccessfully Logged in!" ; 
 } else{
 echo "<script>alert('Invalid Details');</script>";
 }

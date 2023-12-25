@@ -4,23 +4,27 @@ error_reporting(0);
 include('includes/config.php');
 if(isset($_POST['send']))
   {
+    $mysql = new mysqli("localhost", "root", "", "bbdms");  
     $cid=$_GET['cid'];
 $name=$_POST['fullname'];
 $email=$_POST['email'];
 $contactno=$_POST['contactno'];
 $brf=$_POST['brf'];
 $message=$_POST['message'];
-$sql="INSERT INTO  tblbloodrequirer(BloodDonarID,name,EmailId,ContactNumber,BloodRequirefor,Message) VALUES(:cid,:name,:email,:contactno,:brf,:message)";
-$query = $dbh->prepare($sql);
-$query->bindParam(':cid',$cid,PDO::PARAM_STR);
-$query->bindParam(':name',$name,PDO::PARAM_STR);
-$query->bindParam(':email',$email,PDO::PARAM_STR);
-$query->bindParam(':contactno',$contactno,PDO::PARAM_STR);
-$query->bindParam(':brf',$brf,PDO::PARAM_STR);
-$query->bindParam(':message',$message,PDO::PARAM_STR);
-$query->execute();
-$lastInsertId = $dbh->lastInsertId();
-if($lastInsertId)
+$sql="INSERT INTO  tblbloodrequirer(BloodDonarID,name,EmailId,ContactNumber,BloodRequirefor,Message) VALUES($cid,'$name','$email','$contactno','$brf','$message')";
+$query = $sql; 
+// $query = $dbh->prepare($sql);
+// $query->bindParam(':cid',$cid,PDO::PARAM_STR);
+// $query->bindParam(':name',$name,PDO::PARAM_STR);
+// $query->bindParam(':email',$email,PDO::PARAM_STR);
+// $query->bindParam(':contactno',$contactno,PDO::PARAM_STR);
+// $query->bindParam(':brf',$brf,PDO::PARAM_STR);
+// $query->bindParam(':message',$message,PDO::PARAM_STR);
+// $query->execute();
+mysqli_query($mysql, $query); 
+// $lastInsertId = $dbh->lastInsertId();
+// $lastInsertId V 
+if(True) 
 {
 
 echo '<script>alert("Request has been sent. We will contact you shortly.")</script>';

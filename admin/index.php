@@ -4,7 +4,7 @@ include('includes/config.php');
 if(isset($_POST['login']))
 {
 
-$mysql = new mysqli("localhost", "root","", "bbdms") ;  
+$mysql = new mysqli("localhost", "root","", "bbdms") ;   
 $username=$_POST['username'];
 // $password=md5($_POST['password']);
 $password=$_POST['password']; 

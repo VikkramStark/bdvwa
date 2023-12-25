@@ -116,7 +116,7 @@ include('includes/config.php');
 				<?php 
 $status=1;
 $mysql = new mysqli("localhost", "root","", "bbdms") ;  
-$sql = "SELECT * from tblblooddonars where status=".$status." order by rand() limit 6";
+$sql = "SELECT * from tblblooddonars where status=$status order by rand() limit 6";
 $query = $sql; 
 // $query = $dbh -> prepare($sql);
 // $query->bindParam(':status',$status,PDO::PARAM_STR);
@@ -124,7 +124,8 @@ $query = $sql;
 // $results=$query->fetchAll(PDO::FETCH_OBJ);
 $results = $mysqli_query($mysql, $query);  
 $cnt=1;
-if(mysqli_num_rows($results) > 0) 
+// (mysqli_num_rows($results) > 0
+if(True)  
 {
 foreach($results as $result)
 { ?>
@@ -134,14 +135,14 @@ foreach($results as $result)
 					
 							<img src="images/blood-donor.jpg" alt="" class="img-fluid" />
 					
-						<h3><?php echo htmlentities($result->FullName);?>
+						<h3><?php echo htmlentities($result['FullName']);?>
 						</h3>
 					</div>
 					<div class="price-bottom p-4">
-						<h4 class="text-dark mb-3">Gender: <?php echo htmlentities($result->Gender);?></h4>
-						<p class="card-text"><b>Blood Group :</b> <?php echo htmlentities($result->BloodGroup);?></p>
+						<h4 class="text-dark mb-3">Gender: <?php echo htmlentities($result['Gender']);?></h4>
+						<p class="card-text"><b>Blood Group :</b> <?php echo htmlentities($result['BloodGroup']);?></p>
 						
-						<a class="btn btn-primary" style="color:#fff" href="contact-blood.php?cid=<?php echo $result->id;?>">Request</a>
+						<a class="btn btn-primary" style="color:#fff" href="contact-blood.php?cid=<?php echo $result['id'];?>">Request</a>
 					</div>
 				</div><?php }} ?>
 			

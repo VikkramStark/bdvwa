@@ -73,12 +73,18 @@ include('includes/config.php');
 <div class="col-lg-4 mb-4">
 <div class="font-italic">Blood Group<span style="color:red">*</span> </div>
 <div><select name="bloodgroup" class="form-control" required>
-<?php $sql = "SELECT * from  tblbloodgroup ";
+<?php 
+$mysql = new mysqli("localhost", "root","", "bbdms") ;  
+$sql = "SELECT * from  tblbloodgroup;"; 
 $query = $dbh -> prepare($sql);
+// $query = $sql; 
 $query->execute();
+// $results = mysqli_query($mysql, $query); 
 $results=$query->fetchAll(PDO::FETCH_OBJ);
 $cnt=1;
-if($query->rowCount() > 0)
+// print_r($results);  
+// mysqli_num_rows($results) > 0; V
+if($query->rowCount() > 0 )  
 {
 foreach($results as $result)
 {               ?>  
@@ -109,19 +115,25 @@ foreach($results as $result)
 			<?php
 				if(isset($_POST['sub']))
 {
+// $mysql = new mysqli("localhost", "root","", "bbdms") ;  
 $status=1;
 $bloodgroup=$_POST['bloodgroup'];
 $location=$_POST['location']; 
 
-$sql = "SELECT * from tblblooddonars where (status=:status and BloodGroup=:bloodgroup) ||  (Address=:location)";
-$query = $dbh -> prepare($sql);
-$query->bindParam(':status',$status,PDO::PARAM_STR);
-$query->bindParam(':bloodgroup',$bloodgroup,PDO::PARAM_STR);
-$query->bindParam(':location',$location,PDO::PARAM_STR);
-$query->execute();
-$results=$query->fetchAll(PDO::FETCH_OBJ);
+// status=$status and
+$sql = "SELECT * from tblblooddonars where ( BloodGroup='$bloodgroup') ||  (Address='$location')"; 
+$query = $sql; 
+// $query = $dbh -> prepare($sql);
+// $query->bindParam(':status',$status,PDO::PARAM_STR);
+// $query->bindParam(':bloodgroup',$bloodgroup,PDO::PARAM_STR);
+// $query->bindParam(':location',$location,PDO::PARAM_STR);
+// $query->execute();
+// $results = mysqli_query($mysql, $query); 
+// $results=$query->fetchAll(PDO::FETCH_OBJ);
+// print_r($results);  
 $cnt=1;
-if($query->rowCount() > 0)
+// mysqli_num_rows($results) > 0 V
+if($results = mysqli_query($mysql, $query))
 { ?>
 
 			<div class="w3ls-titles text-center mb-5">
@@ -142,7 +154,7 @@ if($query->rowCount() > 0)
 						<a href="single.html">
 							<img src="images/blood-donor.jpg" alt="Blood Donor" style="border:1px #000 solid" class="img-fluid" />
 						</a>
-						<h3><?php echo htmlentities($result->FullName);?>
+						<h3><?php echo htmlentities($result['FullName']);?>
 						</h3>
 					</div>
 					<div class="price-bottom p-4">
@@ -151,40 +163,40 @@ if($query->rowCount() > 0)
     <tbody>
       <tr>
         <th>Gender</th>
-        <td><?php echo htmlentities($result->Gender);?></td>
+        <td><?php echo htmlentities($result['Gender']);?></td>
       </tr>
       <tr>
         <td>Blood Group</td>
-        <td><?php echo htmlentities($result->BloodGroup);?></td>
+        <td><?php echo htmlentities($result['BloodGroup']);?></td>
       </tr>
       <tr>
         <td>Mobile No.</td>
-        <td><?php echo htmlentities($result->MobileNumber);?></td>
+        <td><?php echo htmlentities($result['MobileNumber']);?></td>
       </tr>
 
          <tr>
         <td>Email ID</td>
-        <td><?php echo htmlentities($result->EmailId);?></td>
+        <td><?php echo htmlentities($result['EmailId']);?></td>
       </tr>
 
                <tr>
         <td>Age</td>
-        <td><?php echo htmlentities($result->Age);?></td>
+        <td><?php echo htmlentities($result['Age']);?></td>
       </tr>
 
         <tr>
         <td>Address</td>
-        <td><?php echo htmlentities($result->Address);?></td>
+        <td><?php echo htmlentities($result['Address']);?></td>
       </tr>
 
 <tr>
         <td>Message</td>
-        <td><?php echo htmlentities($result->Message);?></td>
+        <td><?php echo htmlentities($result['Message']);?></td>
       </tr>
 
     </tbody>
 </table>
-						<a class="btn btn-primary" style="color:#fff"  href="contact-blood.php?cid=<?php echo $result->id;?>">Request</a>
+						<a class="btn btn-primary" style="color:#fff"  href="contact-blood.php?cid=<?php echo $result['id'];?>">Request</a>
 					</div>
 				</div> <?php }}
 else
